@@ -1,0 +1,1217 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>firenze.js by fahad19</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>firenze.js</h1>
+        <p>Node.js ORM for relational databases (MySQL et al).</p>
+
+        <p class="view"><a href="https://github.com/fahad19/firenze">View the Project on GitHub <small>fahad19/firenze</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/fahad19/firenze/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/fahad19/firenze/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/fahad19/firenze">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a id="firenzejs" class="anchor" href="#firenzejs" aria-hidden="true"><span class="octicon octicon-link"></span></a>firenze.js</h1>
+
+<p><a href="http://travis-ci.org/fahad19/firenze"><img src="https://secure.travis-ci.org/fahad19/firenze.png?branch=master" alt="Build Status"></a></p>
+
+<blockquote>
+<p>Node.js ORM for relational databases.</p>
+</blockquote>
+
+<p>Install it with npm:</p>
+
+<pre><code>$ npm install --save firenze
+</code></pre>
+
+
+
+
+
+<h1>
+<a id="contents" class="anchor" href="#contents" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contents</h1>
+
+<ul>
+<li><a href="#quickstart">Quickstart</a></li>
+<li>
+<a href="#database">Database</a>
+
+<ul>
+<li><a href="#usage">Usage</a></li>
+<li>
+<a href="#methods">Methods</a>
+
+<ul>
+<li><a href="#createcollectionclassextend">createCollectionClass(extend)</a></li>
+<li><a href="#createmodelclassextend">createModelClass(extend)</a></li>
+<li><a href="#getadapter">getAdapter()</a></li>
+<li><a href="#getconnection">getConnection()</a></li>
+<li><a href="#closecb--null">close(cb = null)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#adapter">Adapter</a>
+
+<ul>
+<li><a href="#available-adapters">Available adapters</a></li>
+<li><a href="#usage-1">Usage</a></li>
+<li>
+<a href="#methods-1">Methods</a>
+
+<ul>
+<li><a href="#getconnection-1">getConnection()</a></li>
+<li><a href="#closeconnectioncb--null">closeConnection(cb = null)</a></li>
+<li><a href="#query">query()</a></li>
+<li><a href="#createq-obj">create(q, obj)</a></li>
+<li><a href="#readq">read(q)</a></li>
+<li><a href="#updateq-obj">update(q, obj)</a></li>
+<li><a href="#deleteq">delete(q)</a></li>
+<li><a href="#droptablemodel">dropTable(model)</a></li>
+<li><a href="#createtablemodel">createTable(model)</a></li>
+<li><a href="#populatetablemodel-rows">populateTable(model, rows)</a></li>
+<li><a href="#loadfixturemodel-rows">loadFixture(model, rows)</a></li>
+<li><a href="#loadallfixturesarr">loadAllFixtures(arr)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#collection">Collection</a>
+
+<ul>
+<li>
+<a href="#creating-classes">Creating classes</a>
+
+<ul>
+<li>
+<a href="#properties">Properties</a>
+
+<ul>
+<li><a href="#modelclass">modelClass</a></li>
+<li><a href="#table">table</a></li>
+<li><a href="#finders">finders</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#usage-2">Usage</a></li>
+<li>
+<a href="#methods-2">Methods</a>
+
+<ul>
+<li><a href="#modelattributes---extend--">model(attributes = {}, extend = {})</a></li>
+<li><a href="#getdatabase">getDatabase()</a></li>
+<li><a href="#getadapter-1">getAdapter()</a></li>
+<li><a href="#setdatabasedb">setDatabase(db)</a></li>
+<li><a href="#queryoptions--">query(options = {})</a></li>
+<li><a href="#findtype-options--">find(type, options = {})</a></li>
+<li><a href="#findalloptions--">findAll(options = {})</a></li>
+<li><a href="#findfirstoptions--">findFirst(options = {})</a></li>
+<li><a href="#findcountoptions--">findCount(options = {})</a></li>
+<li><a href="#findlistoptions--">findList(options = {})</a></li>
+<li><a href="#savemodel-options--">save(model, options = {})</a></li>
+<li><a href="#deletemodel">delete(model)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#models">Models</a>
+
+<ul>
+<li>
+<a href="#creating-classes-1">Creating classes</a>
+
+<ul>
+<li>
+<a href="#properties-1">Properties</a>
+
+<ul>
+<li><a href="#collectionclass">collectionClass</a></li>
+<li><a href="#schema">schema</a></li>
+<li><a href="#attributes">attributes</a></li>
+<li><a href="#primarykey">primaryKey</a></li>
+<li><a href="#displayfield">displayField</a></li>
+<li><a href="#id">id</a></li>
+<li><a href="#validationrules">validationRules</a></li>
+<li><a href="#alias">alias</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#usage-3">Usage</a></li>
+<li>
+<a href="#validations">Validations</a>
+
+<ul>
+<li><a href="#single-rule">Single rule</a></li>
+<li><a href="#multiple-rules">Multiple rules</a></li>
+<li><a href="#rule-with-options">Rule with options</a></li>
+<li><a href="#rule-as-a-function">Rule as a function</a></li>
+<li><a href="#asynchronouse-rule">Asynchronouse rule</a></li>
+<li><a href="#available-rules">Available rules</a></li>
+<li><a href="#custom-rules">Custom rules</a></li>
+<li><a href="#required-fields">Required fields</a></li>
+</ul>
+</li>
+<li>
+<a href="#methods-3">Methods</a>
+
+<ul>
+<li><a href="#collectionoptions--">collection(options = {})</a></li>
+<li><a href="#getfield">get(field)</a></li>
+<li><a href="#setfield-value">set(field, value)</a></li>
+<li><a href="#toobject">toObject()</a></li>
+<li><a href="#tojson">toJSON()</a></li>
+<li><a href="#fetchoptions--">fetch(options = {})</a></li>
+<li><a href="#getid">getId()</a></li>
+<li><a href="#isnew">isNew()</a></li>
+<li><a href="#saveoptions--">save(options = {})</a></li>
+<li><a href="#savefieldfield-value">saveField(field, value)</a></li>
+<li><a href="#clear">clear()</a></li>
+<li><a href="#deleteoptions--">delete(options = {})</a></li>
+<li><a href="#validate">validate()</a></li>
+<li><a href="#validatefieldfield-value--null">validateField(field, value = null)</a></li>
+</ul>
+</li>
+<li>
+<a href="#callbacks">Callbacks</a>
+
+<ul>
+<li><a href="#beforesave">beforeSave()</a></li>
+<li><a href="#aftersave">afterSave()</a></li>
+<li><a href="#beforevalidate">beforeValidate()</a></li>
+<li><a href="#aftervalidate">afterValidate()</a></li>
+<li><a href="#beforedelete">beforeDelete()</a></li>
+<li><a href="#afterdelete">afterDelete()</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#testing">Testing</a></li>
+<li><a href="#license">License</a></li>
+</ul>
+
+
+
+<h1>
+<a id="quickstart" class="anchor" href="#quickstart" aria-hidden="true"><span class="octicon octicon-link"></span></a>Quickstart</h1>
+
+<p>Install the module (along with an adapter) first:</p>
+
+<pre><code>$ npm install --save firenze firenze-adapter-mysql
+</code></pre>
+
+<p>Now you can proceed to managing your database as folllows:</p>
+
+<div class="highlight highlight-js"><pre><span class="pl-k">var</span> f <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>firenze<span class="pl-pds">'</span></span>);
+<span class="pl-k">var</span> Database <span class="pl-k">=</span> f.Database;
+<span class="pl-k">var</span> MysqlAdapter <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>firenze-adapter-mysql<span class="pl-pds">'</span></span>);
+
+<span class="pl-c">// create an instance of your Database</span>
+<span class="pl-k">var</span> db <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Database</span>({
+  adapter<span class="pl-k">:</span> MysqlAdapter,
+  host<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>127.0.0.1<span class="pl-pds">'</span></span>,
+  database<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>my_database<span class="pl-pds">'</span></span>,
+  user<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-pds">'</span></span>,
+  password<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-pds">'</span></span>
+});
+
+<span class="pl-c">// define a Collection, which represents a table</span>
+<span class="pl-k">var</span> Posts <span class="pl-k">=</span> db.createCollectionClass({ <span class="pl-c">// or db.Collection()</span>
+  table<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>posts<span class="pl-pds">'</span></span>,
+
+  <span class="pl-en">modelClass</span>: <span class="pl-k">function</span> () {
+    <span class="pl-k">return</span> Post;
+  }
+  <span class="pl-c">// or modelClass: Post</span>
+});
+
+<span class="pl-c">// define a Model, which represents a record</span>
+<span class="pl-k">var</span> Post <span class="pl-k">=</span> db.createModelClass({ <span class="pl-c">// or db.Model()</span>
+  alias<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Post<span class="pl-pds">'</span></span>,
+
+  collectionClass<span class="pl-k">:</span> Posts, <span class="pl-c">// or a function that returns Posts</span>
+
+  schema<span class="pl-k">:</span> {
+    id<span class="pl-k">:</span> {
+      type<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>integer<span class="pl-pds">'</span></span>
+    },
+    title<span class="pl-k">:</span> {
+      type<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>string<span class="pl-pds">'</span></span>
+    },
+    body<span class="pl-k">:</span> {
+      type<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>text<span class="pl-pds">'</span></span>
+    }
+  }
+});
+
+<span class="pl-c">// finding</span>
+<span class="pl-k">var</span> posts <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Posts</span>();
+posts.<span class="pl-c1">find</span>(<span class="pl-s"><span class="pl-pds">'</span>first<span class="pl-pds">'</span></span>, {
+  conditions<span class="pl-k">:</span> {
+    id<span class="pl-k">:</span> <span class="pl-c1">1</span>
+    <span class="pl-c">// can also be prefixed with Model alias as:</span>
+    <span class="pl-c">// 'Post.id': 1</span>
+  }
+}).then(<span class="pl-k">function</span> (<span class="pl-smi">post</span>) {
+  <span class="pl-c">// post in an instance of Model, with fetched data</span>
+  <span class="pl-k">var</span> title <span class="pl-k">=</span> post.get(<span class="pl-s"><span class="pl-pds">'</span>title<span class="pl-pds">'</span></span>);
+
+  <span class="pl-c">// or convert to plain object</span>
+  <span class="pl-k">var</span> postObject <span class="pl-k">=</span> post.toObject();
+  <span class="pl-k">var</span> title <span class="pl-k">=</span> postObject.<span class="pl-c1">title</span>;
+});
+
+<span class="pl-c">// saving</span>
+<span class="pl-k">var</span> post <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Post</span>({
+  title<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Hello World<span class="pl-pds">'</span></span>,
+  body<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>blah...<span class="pl-pds">'</span></span>
+});
+post.save().then(<span class="pl-k">function</span> (<span class="pl-smi">model</span>) {
+  <span class="pl-en">console</span><span class="pl-c1">.log</span>(<span class="pl-s"><span class="pl-pds">'</span>Saved with ID: <span class="pl-pds">'</span></span> <span class="pl-k">+</span> model.get(<span class="pl-s"><span class="pl-pds">'</span>id<span class="pl-pds">'</span></span>));
+});</pre></div>
+
+
+
+<h1>
+<a id="database" class="anchor" href="#database" aria-hidden="true"><span class="octicon octicon-link"></span></a>Database</h1>
+
+<p>Before anything else, you need to create an instance of <code>Database</code> with your credentials which will be referenced in your Collections and Models.</p>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<div class="highlight highlight-js"><pre><span class="pl-k">var</span> f <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>firenze<span class="pl-pds">'</span></span>);
+<span class="pl-k">var</span> Database <span class="pl-k">=</span> f.Database;
+<span class="pl-k">var</span> MysqlAdapter <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>firenze-adapter-mysql<span class="pl-pds">'</span></span>);
+
+<span class="pl-k">var</span> db <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Database</span>({
+  adapter<span class="pl-k">:</span> MysqlAdapter,
+  host<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>127.0.0.1<span class="pl-pds">'</span></span>,
+  database<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>my_database<span class="pl-pds">'</span></span>,
+  user<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-pds">'</span></span>,
+  password<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-pds">'</span></span>,
+  pool<span class="pl-k">:</span> {
+    min<span class="pl-k">:</span> <span class="pl-c1">0</span>,
+    max<span class="pl-k">:</span> <span class="pl-c1">1</span>
+  }
+});</pre></div>
+
+<h2>
+<a id="methods" class="anchor" href="#methods" aria-hidden="true"><span class="octicon octicon-link"></span></a>Methods</h2>
+
+<h3>
+<a id="createcollectionclassextend" class="anchor" href="#createcollectionclassextend" aria-hidden="true"><span class="octicon octicon-link"></span></a>createCollectionClass(extend)</h3>
+
+<p>Also aliased as <code>.Collection(extend)</code>.</p>
+
+<h3>
+<a id="createmodelclassextend" class="anchor" href="#createmodelclassextend" aria-hidden="true"><span class="octicon octicon-link"></span></a>createModelClass(extend)</h3>
+
+<p>Also aliased as <code>.Model(extend)</code></p>
+
+<h3>
+<a id="getadapter" class="anchor" href="#getadapter" aria-hidden="true"><span class="octicon octicon-link"></span></a>getAdapter()</h3>
+
+<p>Returns adapter</p>
+
+<h3>
+<a id="getconnection" class="anchor" href="#getconnection" aria-hidden="true"><span class="octicon octicon-link"></span></a>getConnection()</h3>
+
+<p>Returns connection of the Adapter</p>
+
+<h3>
+<a id="closecb--null" class="anchor" href="#closecb--null" aria-hidden="true"><span class="octicon octicon-link"></span></a>close(cb = null)</h3>
+
+<p>Closes the connection</p>
+
+
+
+
+
+<h1>
+<a id="adapter" class="anchor" href="#adapter" aria-hidden="true"><span class="octicon octicon-link"></span></a>Adapter</h1>
+
+<p>Adapter is responsible for making the actual database operations.</p>
+
+<h2>
+<a id="available-adapters" class="anchor" href="#available-adapters" aria-hidden="true"><span class="octicon octicon-link"></span></a>Available adapters</h2>
+
+<p>You can find further documentation on querying on their own sites:</p>
+
+<ul>
+<li><a href="https://github.com/fahad19/firenze-adapter-mysql">MySQL</a></li>
+</ul>
+
+<h2>
+<a id="usage-1" class="anchor" href="#usage-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>You would hardly ever need to create an instance of a Adapter. Database class would take care of it.</p>
+
+<p>An adapter instance is created with the same options passed when creating a Database instance:</p>
+
+<p>For example, if you are using MySQL adapter, it would be like this:</p>
+
+<pre><code>$ npm install --save firenze-adapter-mysql
+</code></pre>
+
+<p>Now let's create an instance of Database:</p>
+
+<div class="highlight highlight-js"><pre><span class="pl-k">var</span> f <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>firenze<span class="pl-pds">'</span></span>);
+<span class="pl-k">var</span> Database <span class="pl-k">=</span> f.Database;
+<span class="pl-k">var</span> MysqlAdapter <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>firenze-adapter-mysql<span class="pl-pds">'</span></span>);
+
+<span class="pl-k">var</span> db <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Database</span>({
+  adapter<span class="pl-k">:</span> MysqlAdapter,
+  host<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>127.0.0.1<span class="pl-pds">'</span></span>,
+  database<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>my_database<span class="pl-pds">'</span></span>,
+  user<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-pds">'</span></span>,
+  password<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-pds">'</span></span>
+});</pre></div>
+
+<h2>
+<a id="methods-1" class="anchor" href="#methods-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Methods</h2>
+
+<p>Every adapter needs to implement at least these methods below:</p>
+
+<h3>
+<a id="getconnection-1" class="anchor" href="#getconnection-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>getConnection()</h3>
+
+<p>Returns the current connection</p>
+
+<h3>
+<a id="closeconnectioncb--null" class="anchor" href="#closeconnectioncb--null" aria-hidden="true"><span class="octicon octicon-link"></span></a>closeConnection(cb = null)</h3>
+
+<p>Closes the current connection, and calls the callback function <code>cb()</code> if passed.</p>
+
+<h3>
+<a id="query" class="anchor" href="#query" aria-hidden="true"><span class="octicon octicon-link"></span></a>query()</h3>
+
+<p>Gets a query object</p>
+
+<h3>
+<a id="createq-obj" class="anchor" href="#createq-obj" aria-hidden="true"><span class="octicon octicon-link"></span></a>create(q, obj)</h3>
+
+<p>Creates a new record</p>
+
+<h3>
+<a id="readq" class="anchor" href="#readq" aria-hidden="true"><span class="octicon octicon-link"></span></a>read(q)</h3>
+
+<p>Fetches the results found against the query object</p>
+
+<h3>
+<a id="updateq-obj" class="anchor" href="#updateq-obj" aria-hidden="true"><span class="octicon octicon-link"></span></a>update(q, obj)</h3>
+
+<p>Updates the records matching againt query object with given data</p>
+
+<h3>
+<a id="deleteq" class="anchor" href="#deleteq" aria-hidden="true"><span class="octicon octicon-link"></span></a>delete(q)</h3>
+
+<p>Deletes the records matching against query object</p>
+
+<h3>
+<a id="droptablemodel" class="anchor" href="#droptablemodel" aria-hidden="true"><span class="octicon octicon-link"></span></a>dropTable(model)</h3>
+
+<p>Drop table if exists</p>
+
+<h3>
+<a id="createtablemodel" class="anchor" href="#createtablemodel" aria-hidden="true"><span class="octicon octicon-link"></span></a>createTable(model)</h3>
+
+<p>Create table based on model's schema</p>
+
+<h3>
+<a id="populatetablemodel-rows" class="anchor" href="#populatetablemodel-rows" aria-hidden="true"><span class="octicon octicon-link"></span></a>populateTable(model, rows)</h3>
+
+<p>Insert rows into model's table</p>
+
+<h3>
+<a id="loadfixturemodel-rows" class="anchor" href="#loadfixturemodel-rows" aria-hidden="true"><span class="octicon octicon-link"></span></a>loadFixture(model, rows)</h3>
+
+<p>Creates table, and loads data for given model</p>
+
+<h3>
+<a id="loadallfixturesarr" class="anchor" href="#loadallfixturesarr" aria-hidden="true"><span class="octicon octicon-link"></span></a>loadAllFixtures(arr)</h3>
+
+<p>Runs fixtures for multiple models</p>
+
+<p>arr = [{model: post, rows: rows}]</p>
+
+
+
+
+
+<h1>
+<a id="collection" class="anchor" href="#collection" aria-hidden="true"><span class="octicon octicon-link"></span></a>Collection</h1>
+
+<p>A collection represents a table. If you have a <code>posts</code> table, most likely you would have a collection for it called <code>Posts</code>.</p>
+
+<h2>
+<a id="creating-classes" class="anchor" href="#creating-classes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Creating classes</h2>
+
+<p>You can create a Collection class from your Database instance. And it requires minimum two properies, <code>table</code>, and <code>modelClass</code>:</p>
+
+<div class="highlight highlight-js"><pre><span class="pl-k">var</span> Posts <span class="pl-k">=</span> db.createCollectionClass({
+  table<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>posts<span class="pl-pds">'</span></span>,
+
+  <span class="pl-en">modelClass</span>: <span class="pl-k">function</span> () {
+    <span class="pl-k">return</span> Post;
+  }
+});</pre></div>
+
+<p>There is also a short method for creating Collection class via <code>db.Collection()</code>.</p>
+
+<p>You can also create a Collection class like this:</p>
+
+<div class="highlight highlight-js"><pre><span class="pl-k">var</span> Posts <span class="pl-k">=</span> f.createCollectionClass({
+  db<span class="pl-k">:</span> db, <span class="pl-c">// instance of your Database</span>
+
+  table<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>posts<span class="pl-pds">'</span></span>,
+
+  <span class="pl-c">// ...</span>
+});</pre></div>
+
+<p>If you are using ES6:</p>
+
+<div class="highlight highlight-js"><pre><span class="pl-k">class</span> <span class="pl-en">Posts</span> <span class="pl-k">extends</span> <span class="pl-en">f.Collection</span> {
+  <span class="pl-en">constructor</span>(<span class="pl-smi">extend</span> = {}) {
+    <span class="pl-v">super</span>(extend);
+    <span class="pl-v">this</span>.setDatabase(db);
+  }
+}</pre></div>
+
+<h3>
+<a id="properties" class="anchor" href="#properties" aria-hidden="true"><span class="octicon octicon-link"></span></a>Properties</h3>
+
+<h4>
+<a id="modelclass" class="anchor" href="#modelclass" aria-hidden="true"><span class="octicon octicon-link"></span></a>modelClass</h4>
+
+<p>Every collection requires a Model for representing its records. This property can directly reference to the Model class, or it can be a function that returns the Model class.</p>
+
+<h4>
+<a id="table" class="anchor" href="#table" aria-hidden="true"><span class="octicon octicon-link"></span></a>table</h4>
+
+<p>The name of the table that this Collection represents. Always as a string.</p>
+
+<h4>
+<a id="finders" class="anchor" href="#finders" aria-hidden="true"><span class="octicon octicon-link"></span></a>finders</h4>
+
+<p>List of mapped finder methods that you want available in <code>.find(mappedName, options)</code></p>
+
+<p>By default these are set:</p>
+
+<div class="highlight highlight-js"><pre>{
+  all<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>findAll<span class="pl-pds">'</span></span>,
+  first<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>findFirst<span class="pl-pds">'</span></span>,
+  count<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>findCount<span class="pl-pds">'</span></span>,
+  list<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>findList<span class="pl-pds">'</span></span>
+}</pre></div>
+
+<p>This mapping allows you to later call <code>.find('all', options)</code>, which eventually calls <code>.findAll(options)</code>.</p>
+
+<h2>
+<a id="usage-2" class="anchor" href="#usage-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>Before using the Collection, you need to create an instance of it:</p>
+
+<div class="highlight highlight-js"><pre><span class="pl-k">var</span> posts <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Posts</span>();</pre></div>
+
+<h2>
+<a id="methods-2" class="anchor" href="#methods-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>Methods</h2>
+
+<h3>
+<a id="modelattributes---extend--" class="anchor" href="#modelattributes---extend--" aria-hidden="true"><span class="octicon octicon-link"></span></a>model(attributes = {}, extend = {})</h3>
+
+<p>Get an instance of this Collection's model</p>
+
+<h3>
+<a id="getdatabase" class="anchor" href="#getdatabase" aria-hidden="true"><span class="octicon octicon-link"></span></a>getDatabase()</h3>
+
+<p>Get in instance of the current Database</p>
+
+<h3>
+<a id="getadapter-1" class="anchor" href="#getadapter-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>getAdapter()</h3>
+
+<p>Get adapter of the Collections' database</p>
+
+<h3>
+<a id="setdatabasedb" class="anchor" href="#setdatabasedb" aria-hidden="true"><span class="octicon octicon-link"></span></a>setDatabase(db)</h3>
+
+<p>Change database instance of this Collection to <code>db</code></p>
+
+<h3>
+<a id="queryoptions--" class="anchor" href="#queryoptions--" aria-hidden="true"><span class="octicon octicon-link"></span></a>query(options = {})</h3>
+
+<p>Get query object for this Collection</p>
+
+<h3>
+<a id="findtype-options--" class="anchor" href="#findtype-options--" aria-hidden="true"><span class="octicon octicon-link"></span></a>find(type, options = {})</h3>
+
+<p>Explained above in <code>finders</code> section</p>
+
+<h3>
+<a id="findalloptions--" class="anchor" href="#findalloptions--" aria-hidden="true"><span class="octicon octicon-link"></span></a>findAll(options = {})</h3>
+
+<p>Returns a promise with matched results.</p>
+
+<p>Same as <code>collection.find('all', options)</code>.</p>
+
+<h3>
+<a id="findfirstoptions--" class="anchor" href="#findfirstoptions--" aria-hidden="true"><span class="octicon octicon-link"></span></a>findFirst(options = {})</h3>
+
+<p>Returns a promise with matched model if any.</p>
+
+<p>Same as <code>collection.find('first', options)</code>.</p>
+
+<h3>
+<a id="findcountoptions--" class="anchor" href="#findcountoptions--" aria-hidden="true"><span class="octicon octicon-link"></span></a>findCount(options = {})</h3>
+
+<p>Returns a promise with count of matched results.</p>
+
+<p>Same as <code>collection.find('count', options)</code>.</p>
+
+<h3>
+<a id="findlistoptions--" class="anchor" href="#findlistoptions--" aria-hidden="true"><span class="octicon octicon-link"></span></a>findList(options = {})</h3>
+
+<p>Returns a promise with key/value pair of matched results.</p>
+
+<p>Same as <code>collection.find('list', options)</code>.</p>
+
+<h3>
+<a id="savemodel-options--" class="anchor" href="#savemodel-options--" aria-hidden="true"><span class="octicon octicon-link"></span></a>save(model, options = {})</h3>
+
+<p>Save the given model. This method is not usually called directly, but rather via <code>Model.save()</code>.</p>
+
+<p>Returns a promise with model instance.</p>
+
+<h3>
+<a id="deletemodel" class="anchor" href="#deletemodel" aria-hidden="true"><span class="octicon octicon-link"></span></a>delete(model)</h3>
+
+<p>Deletes the given model. Usually called via <code>Model.delete()</code>.</p>
+
+<p>Returns a promise.</p>
+
+
+
+
+
+<h1>
+<a id="models" class="anchor" href="#models" aria-hidden="true"><span class="octicon octicon-link"></span></a>Models</h1>
+
+<p>A model represents a record of a table. If you have a <code>posts</code> table, most likely you would want to name your Model class in its singular for, which is <code>Post</code>.</p>
+
+<h2>
+<a id="creating-classes-1" class="anchor" href="#creating-classes-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Creating classes</h2>
+
+<p>You can create a Model class from your Database instance. And it can be created as follows:</p>
+
+<div class="highlight highlight-js"><pre><span class="pl-k">var</span> Post <span class="pl-k">=</span> db.createModelClas({
+  alias<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Post<span class="pl-pds">'</span></span>,
+
+  displayField<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>title<span class="pl-pds">'</span></span>,
+
+  schema<span class="pl-k">:</span> {
+    id<span class="pl-k">:</span> {
+      type<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>increments<span class="pl-pds">'</span></span>
+    },
+    title<span class="pl-k">:</span> {
+      type<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>string<span class="pl-pds">'</span></span>
+    }
+  },
+
+  collectionClass<span class="pl-k">:</span> Posts
+});</pre></div>
+
+<p>There is a short method for creating a Model class via <code>db.Model()</code>.</p>
+
+<p>You can also create a Model class like this:</p>
+
+<div class="highlight highlight-js"><pre><span class="pl-k">var</span> Post <span class="pl-k">=</span> f.createModelClass({
+  <span class="pl-c">// ...</span>
+});</pre></div>
+
+<p>If you are using ES6:</p>
+
+<div class="highlight highlight-js"><pre><span class="pl-k">class</span> <span class="pl-en">Post</span> <span class="pl-k">extends</span> <span class="pl-en">f.Model</span> {
+  <span class="pl-en">constructor</span>(<span class="pl-smi">attributes</span> = {}, <span class="pl-smi">extend</span> = {}) {
+    <span class="pl-v">super</span>(attributes, extend);
+  }
+}</pre></div>
+
+<h3>
+<a id="properties-1" class="anchor" href="#properties-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Properties</h3>
+
+<h4>
+<a id="collectionclass" class="anchor" href="#collectionclass" aria-hidden="true"><span class="octicon octicon-link"></span></a>collectionClass</h4>
+
+<p>Just like how Collection has a modelClass, models also need to have a collectionClass. It can be a direct reference to the class, or it can be a function that returns the class.</p>
+
+<h4>
+<a id="schema" class="anchor" href="#schema" aria-hidden="true"><span class="octicon octicon-link"></span></a>schema</h4>
+
+<p>Models do not necessarily need to define their full schema, but you would need them for building fixtures and also assigning validation rules for example later.</p>
+
+<p>The keys of this object are the column names, and the value defines what type of column they are. For example:</p>
+
+<div class="highlight highlight-js"><pre>{
+  id<span class="pl-k">:</span> {
+    type<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>integer<span class="pl-pds">'</span></span>
+  },
+  title<span class="pl-k">:</span> {
+    type<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>string<span class="pl-pds">'</span></span>
+  }
+}</pre></div>
+
+<p>Column types can vary depending on the adapter you are using.</p>
+
+<p>You also use the <code>schema</code> property to set validation rules.</p>
+
+<p>For example:</p>
+
+<div class="highlight highlight-js"><pre>{
+  email<span class="pl-k">:</span> {
+    type<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>string<span class="pl-pds">'</span></span>,
+    validate<span class="pl-k">:</span> {
+      rule<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>isEmail<span class="pl-pds">'</span></span>,
+      message<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Please enter a valid email address<span class="pl-pds">'</span></span>
+    }
+  }
+}</pre></div>
+
+<p>Validations will be discussed further later in its own section.</p>
+
+<h4>
+<a id="attributes" class="anchor" href="#attributes" aria-hidden="true"><span class="octicon octicon-link"></span></a>attributes</h4>
+
+<p>Your model's data</p>
+
+<h4>
+<a id="primarykey" class="anchor" href="#primarykey" aria-hidden="true"><span class="octicon octicon-link"></span></a>primaryKey</h4>
+
+<p>The name of the ID field, defaults to <code>id</code>.</p>
+
+<h4>
+<a id="displayfield" class="anchor" href="#displayfield" aria-hidden="true"><span class="octicon octicon-link"></span></a>displayField</h4>
+
+<p>This is the field that represents your record's display value. Usually <code>title</code> or <code>name</code> in most cases.</p>
+
+<h4>
+<a id="id" class="anchor" href="#id" aria-hidden="true"><span class="octicon octicon-link"></span></a>id</h4>
+
+<p>For convenience, stores the ID of the model in this property</p>
+
+<h4>
+<a id="validationrules" class="anchor" href="#validationrules" aria-hidden="true"><span class="octicon octicon-link"></span></a>validationRules</h4>
+
+<p>Example:</p>
+
+<div class="highlight highlight-js"><pre>{
+  <span class="pl-en">ruleName</span>: <span class="pl-k">function</span> (<span class="pl-smi">field</span>, <span class="pl-smi">value</span>) {
+    <span class="pl-k">return</span> <span class="pl-c1">true</span>;
+  },
+  <span class="pl-en">asyncRule</span>: <span class="pl-k">function</span> (<span class="pl-smi">value</span>, <span class="pl-smi">field</span>, <span class="pl-smi">validated</span>) {
+    <span class="pl-k">return</span> validated(<span class="pl-c1">true</span>);
+  },
+  <span class="pl-en">ruleWithOptions</span>: <span class="pl-k">function</span> (<span class="pl-smi">value</span>, <span class="pl-smi">field</span>, <span class="pl-smi">arg1</span>, <span class="pl-smi">arg2</span>) {
+    <span class="pl-k">return</span> <span class="pl-c1">true</span>;
+  }
+}</pre></div>
+
+<h4>
+<a id="alias" class="anchor" href="#alias" aria-hidden="true"><span class="octicon octicon-link"></span></a>alias</h4>
+
+<p>Unless defined, alias always defaults to the table name as defined in the Collection class of a Model. When associations get in the way, having a unique alias helps avoiding ambiguity when constructing complex conditions.</p>
+
+<h2>
+<a id="usage-3" class="anchor" href="#usage-3" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>Unless otherwise you are already provided with a model instance from a Collection, you need to create an instance of it:</p>
+
+<div class="highlight highlight-js"><pre><span class="pl-k">var</span> post <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Post</span>();</pre></div>
+
+<p>You can also create an instance of a Model with some data:</p>
+
+<div class="highlight highlight-js"><pre><span class="pl-k">var</span> post <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Post</span>({
+  title<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Hello World<span class="pl-pds">'</span></span>,
+  body<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>blah...<span class="pl-pds">'</span></span>
+});</pre></div>
+
+<h2>
+<a id="validations" class="anchor" href="#validations" aria-hidden="true"><span class="octicon octicon-link"></span></a>Validations</h2>
+
+<p>Validation rules for fields can be set when defining the schema:</p>
+
+<h3>
+<a id="single-rule" class="anchor" href="#single-rule" aria-hidden="true"><span class="octicon octicon-link"></span></a>Single rule</h3>
+
+<div class="highlight highlight-js"><pre>db.createModelClass({
+  schema<span class="pl-k">:</span> {
+    email<span class="pl-k">:</span> {
+      type<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>string<span class="pl-pds">'</span></span>,
+      validate<span class="pl-k">:</span> {
+        rule<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>isEmail<span class="pl-pds">'</span></span>,
+        message<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Please enter a valid email address<span class="pl-pds">'</span></span>
+      }
+    }
+  }
+});</pre></div>
+
+<h3>
+<a id="multiple-rules" class="anchor" href="#multiple-rules" aria-hidden="true"><span class="octicon octicon-link"></span></a>Multiple rules</h3>
+
+<div class="highlight highlight-js"><pre>{
+  email<span class="pl-k">:</span> {
+    type<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>string<span class="pl-pds">'</span></span>,
+    validate<span class="pl-k">:</span> [
+      {
+        rule<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>isLowercase<span class="pl-pds">'</span></span>,
+        message<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Please enter email address in lowercase<span class="pl-pds">'</span></span>,
+      },
+      {
+        rule<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>isEmail<span class="pl-pds">'</span></span>,
+        message<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Please enter a valid email address<span class="pl-pds">'</span></span>
+      }
+    ]
+  }
+}</pre></div>
+
+<h3>
+<a id="rule-with-options" class="anchor" href="#rule-with-options" aria-hidden="true"><span class="octicon octicon-link"></span></a>Rule with options</h3>
+
+<div class="highlight highlight-js"><pre>{
+  fruit<span class="pl-k">:</span> {
+    type<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>string<span class="pl-pds">'</span></span>,
+    validate<span class="pl-k">:</span> {
+      rule<span class="pl-k">:</span> [
+       <span class="pl-s"><span class="pl-pds">'</span>isIn<span class="pl-pds">'</span></span>, <span class="pl-c">// `isIn` is the rule name</span>
+       [
+         <span class="pl-s"><span class="pl-pds">'</span>apple<span class="pl-pds">'</span></span>,
+         <span class="pl-s"><span class="pl-pds">'</span>banana<span class="pl-pds">'</span></span>
+       ] <span class="pl-c">// this array is passed as an argument to rule function</span>
+      ],
+      message<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Must be either apple or banana<span class="pl-pds">'</span></span>
+    }
+  }
+}</pre></div>
+
+<h3>
+<a id="rule-as-a-function" class="anchor" href="#rule-as-a-function" aria-hidden="true"><span class="octicon octicon-link"></span></a>Rule as a function</h3>
+
+<div class="highlight highlight-js"><pre>{
+  mood<span class="pl-k">:</span> {
+    type<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>string<span class="pl-pds">'</span></span>,
+    validate<span class="pl-k">:</span> {
+      <span class="pl-en">rule</span>: <span class="pl-k">function</span> (<span class="pl-smi">field</span>, <span class="pl-smi">value</span>) {
+        <span class="pl-k">return</span> <span class="pl-c1">true</span>;
+      }
+    }
+  }
+}</pre></div>
+
+<h3>
+<a id="asynchronouse-rule" class="anchor" href="#asynchronouse-rule" aria-hidden="true"><span class="octicon octicon-link"></span></a>Asynchronouse rule</h3>
+
+<div class="highlight highlight-js"><pre>{
+  food<span class="pl-k">:</span> {
+    type<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>string<span class="pl-pds">'</span></span>,
+    validate<span class="pl-k">:</span> {
+      <span class="pl-en">rule</span>: <span class="pl-k">function</span> (<span class="pl-smi">field</span>, <span class="pl-smi">value</span>, <span class="pl-smi">done</span>) {
+        checkIfFoodIsHealthy(value, <span class="pl-k">function</span> (<span class="pl-smi">healthy</span>) {
+          <span class="pl-k">var</span> isHealthy <span class="pl-k">=</span> healthy <span class="pl-k">===</span> <span class="pl-c1">true</span>;
+          done(isHealthy);
+        });
+      }
+    }
+  }
+}</pre></div>
+
+<h3>
+<a id="available-rules" class="anchor" href="#available-rules" aria-hidden="true"><span class="octicon octicon-link"></span></a>Available rules</h3>
+
+<p>By default, all the validation rules from <a href="https://github.com/chriso/validator.js#validators">Validator.js</a> is available:</p>
+
+<ul>
+<li>
+<strong>equals(str, comparison)</strong> - check if the string matches the comparison.</li>
+<li>
+<strong>contains(str, seed)</strong> - check if the string contains the seed.</li>
+<li>
+<strong>matches(str, pattern [, modifiers])</strong> - check if string matches the pattern. Either <code>matches('foo', /foo/i)</code> or <code>matches('foo', 'foo', 'i')</code>.</li>
+<li>
+<strong>isEmail(str [, options])</strong> - check if the string is an email. <code>options</code> is an object which defaults to <code>{ allow_display_name: false, allow_utf8_local_part: true }</code>. If <code>allow_display_name</code> is set to true, the validator will also match <code>Display Name &lt;email-address&gt;</code>. If <code>allow_utf8_local_part</code> is set to false, the validator will not allow any non-English UTF8 character in email address' local part.</li>
+<li>
+<strong>isURL(str [, options])</strong> - check if the string is an URL. <code>options</code> is an object which defaults to <code>{ protocols: ['http','https','ftp'], require_tld: true, require_protocol: false, allow_underscores: false, host_whitelist: false, host_blacklist: false, allow_trailing_dot: false, allow_protocol_relative_urls: false }</code>.</li>
+<li>
+<strong>isFQDN(str [, options])</strong> - check if the string is a fully qualified domain name (e.g. domain.com). <code>options</code> is an object which defaults to <code>{ require_tld: true, allow_underscores: false, allow_trailing_dot: false }</code>.</li>
+<li>
+<strong>isIP(str [, version])</strong> - check if the string is an IP (version 4 or 6).</li>
+<li>
+<strong>isAlpha(str)</strong> - check if the string contains only letters (a-zA-Z).</li>
+<li>
+<strong>isNumeric(str)</strong> - check if the string contains only numbers.</li>
+<li>
+<strong>isAlphanumeric(str)</strong> - check if the string contains only letters and numbers.</li>
+<li>
+<strong>isBase64(str)</strong> - check if a string is base64 encoded.</li>
+<li>
+<strong>isHexadecimal(str)</strong> - check if the string is a hexadecimal number.</li>
+<li>
+<strong>isHexColor(str)</strong> - check if the string is a hexadecimal color.</li>
+<li>
+<strong>isLowercase(str)</strong> - check if the string is lowercase.</li>
+<li>
+<strong>isUppercase(str)</strong> - check if the string is uppercase.</li>
+<li>
+<strong>isInt(str [, options])</strong> - check if the string is an integer. <code>options</code> is an object which can contain the keys <code>min</code> and/or <code>max</code> to check the integer is within boundaries (e.g. <code>{ min: 10, max: 99 }</code>).</li>
+<li>
+<strong>isFloat(str [, options])</strong> - check if the string is a float. <code>options</code> is an object which can contain the keys <code>min</code> and/or <code>max</code> to validate the float is within boundaries (e.g. <code>{ min: 7.22, max: 9.55 }</code>).</li>
+<li>
+<strong>isDivisibleBy(str, number)</strong> - check if the string is a number that's divisible by another.</li>
+<li>
+<strong>isNull(str)</strong> - check if the string is null.</li>
+<li>
+<strong>isLength(str, min [, max])</strong> - check if the string's length falls in a range. Note: this function takes into account surrogate pairs.</li>
+<li>
+<strong>isByteLength(str, min [, max])</strong> - check if the string's length (in bytes) falls in a range.</li>
+<li>
+<strong>isUUID(str [, version])</strong> - check if the string is a UUID (version 3, 4 or 5).</li>
+<li>
+<strong>isDate(str)</strong> - check if the string is a date.</li>
+<li>
+<strong>isAfter(str [, date])</strong> - check if the string is a date that's after the specified date (defaults to now).</li>
+<li>
+<strong>isBefore(str [, date])</strong> - check if the string is a date that's before the specified date.</li>
+<li>
+<strong>isIn(str, values)</strong> - check if the string is in a array of allowed values.</li>
+<li>
+<strong>isCreditCard(str)</strong> - check if the string is a credit card.</li>
+<li>
+<strong>isISIN(str)</strong> - check if the string is an [ISIN]<a href="stock/security%20identifier">ISIN</a>.</li>
+<li>
+<strong>isISBN(str [, version])</strong> - check if the string is an ISBN (version 10 or 13).</li>
+<li>
+<strong>isMobilePhone(str, locale)</strong> - check if the string is a mobile phone number, (locale is one of <code>['zh-CN', 'en-ZA', 'en-AU', 'en-HK', 'pt-PT', 'fr-FR', 'el-GR', 'en-GB', 'en-US', 'en-ZM']</code>).</li>
+<li>
+<strong>isJSON(str)</strong> - check if the string is valid JSON (note: uses JSON.parse).</li>
+<li>
+<strong>isMultibyte(str)</strong> - check if the string contains one or more multibyte chars.</li>
+<li>
+<strong>isAscii(str)</strong> - check if the string contains ASCII chars only.</li>
+<li>
+<strong>isFullWidth(str)</strong> - check if the string contains any full-width chars.</li>
+<li>
+<strong>isHalfWidth(str)</strong> - check if the string contains any half-width chars.</li>
+<li>
+<strong>isVariableWidth(str)</strong> - check if the string contains a mixture of full and half-width chars.</li>
+<li>
+<strong>isSurrogatePair(str)</strong> - check if the string contains any surrogate pairs chars.</li>
+<li>
+<strong>isMongoId(str)</strong> - check if the string is a valid hex-encoded representation of a [MongoDB ObjectId][mongoid].</li>
+<li>
+<strong>isCurrency(str, options)</strong> - check if the string is a valid currency amount. <code>options</code> is an object which defaults to <code>{symbol: '$', require_symbol: false, allow_space_after_symbol: false, symbol_after_digits: false, allow_negatives: true, parens_for_negatives: false, negative_sign_before_digits: false, negative_sign_after_digits: false, allow_negative_sign_placeholder: false, thousands_separator: ',', decimal_separator: '.', allow_space_after_digits: false }</code>.</li>
+</ul>
+
+<p>Example usage of the above mentioned rules:</p>
+
+<div class="highlight highlight-js"><pre>db.createModelClass({
+  schema<span class="pl-k">:</span> {
+    title<span class="pl-k">:</span> {
+      <span class="pl-c">// direct rule</span>
+      validate<span class="pl-k">:</span> {
+        rule<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>isAlphanumeric<span class="pl-pds">'</span></span>
+      }
+    },
+    body<span class="pl-k">:</span> {
+      <span class="pl-c">// rule with options</span>
+      validate<span class="pl-k">:</span> {
+        rule<span class="pl-k">:</span> [<span class="pl-s"><span class="pl-pds">'</span>isLength<span class="pl-pds">'</span></span>, min, max]
+      }
+    }
+  }
+});</pre></div>
+
+<p>But of course, you can always override them or add new custom rules.</p>
+
+<h3>
+<a id="custom-rules" class="anchor" href="#custom-rules" aria-hidden="true"><span class="octicon octicon-link"></span></a>Custom rules</h3>
+
+<p>Validation rules can be defined when creating a Model class:</p>
+
+<div class="highlight highlight-js"><pre><span class="pl-k">var</span> Post <span class="pl-k">=</span> db.createModelClass({
+  schema<span class="pl-k">:</span> {
+    name<span class="pl-k">:</span> {
+      type<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>string<span class="pl-pds">'</span></span>,
+      validate<span class="pl-k">:</span> {
+        rule<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>myFirstRule<span class="pl-pds">'</span></span>
+      }
+    },
+    title<span class="pl-k">:</span> {
+      type<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>string<span class="pl-pds">'</span></span>,
+      validate<span class="pl-k">:</span> {
+        rule<span class="pl-k">:</span> [
+          <span class="pl-s"><span class="pl-pds">'</span>myRuleWithOptions<span class="pl-pds">'</span></span>,
+          <span class="pl-s"><span class="pl-pds">'</span>arg1 value<span class="pl-pds">'</span></span>,
+          <span class="pl-s"><span class="pl-pds">'</span>arg2 value<span class="pl-pds">'</span></span>
+        ]
+      }
+    }
+  },
+
+  validationRules<span class="pl-k">:</span> {
+    <span class="pl-en">myFirstRule</span>: <span class="pl-k">function</span> (<span class="pl-smi">field</span>, <span class="pl-smi">value</span>) {
+      <span class="pl-k">return</span> <span class="pl-c1">true</span>; <span class="pl-c">// validated successfully</span>
+    },
+    <span class="pl-en">myRuleWithOptions</span>: <span class="pl-k">function</span> (<span class="pl-smi">field</span>, <span class="pl-smi">value</span>, <span class="pl-smi">arg1</span>, <span class="pl-smi">arg2</span>) {
+      <span class="pl-k">return</span> <span class="pl-c1">true</span>;
+    },
+    <span class="pl-en">myAsyncRule</span>: <span class="pl-k">function</span> (<span class="pl-smi">field</span>, <span class="pl-smi">value</span>, <span class="pl-smi">done</span>) {
+      doSomething(value, <span class="pl-k">function</span> (<span class="pl-smi">result</span>) {
+        <span class="pl-k">var</span> validated <span class="pl-k">=</span> result <span class="pl-k">===</span> <span class="pl-c1">true</span>;
+        done(validated);
+      });
+    }
+  }
+});</pre></div>
+
+<h3>
+<a id="required-fields" class="anchor" href="#required-fields" aria-hidden="true"><span class="octicon octicon-link"></span></a>Required fields</h3>
+
+<p>By default, validation rules are only checked against fields that are set.</p>
+
+<p>But if you wish to make sure that certain fields are required, meaning they should always be present, you can mark them as required in your schema:</p>
+
+<div class="highlight highlight-js"><pre><span class="pl-k">var</span> Post <span class="pl-k">=</span> db.createModelClass({
+  schema<span class="pl-k">:</span> {
+    name<span class="pl-k">:</span> {
+      type<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>string<span class="pl-pds">'</span></span>,
+      validate<span class="pl-k">:</span> {
+        rule<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>isAlpha<span class="pl-pds">'</span></span>,
+        required<span class="pl-k">:</span> <span class="pl-c1">true</span>,
+        message<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Must be alphabets only<span class="pl-pds">'</span></span>
+      }
+    }
+  }
+});</pre></div>
+
+<h2>
+<a id="methods-3" class="anchor" href="#methods-3" aria-hidden="true"><span class="octicon octicon-link"></span></a>Methods</h2>
+
+<h3>
+<a id="collectionoptions--" class="anchor" href="#collectionoptions--" aria-hidden="true"><span class="octicon octicon-link"></span></a>collection(options = {})</h3>
+
+<p>Get the model's Collection's instance</p>
+
+<h3>
+<a id="getfield" class="anchor" href="#getfield" aria-hidden="true"><span class="octicon octicon-link"></span></a>get(field)</h3>
+
+<p>Get the field of current model</p>
+
+<h3>
+<a id="setfield-value" class="anchor" href="#setfield-value" aria-hidden="true"><span class="octicon octicon-link"></span></a>set(field, value)</h3>
+
+<p>Set an attribute with given value for the field</p>
+
+<h3>
+<a id="toobject" class="anchor" href="#toobject" aria-hidden="true"><span class="octicon octicon-link"></span></a>toObject()</h3>
+
+<p>Returns a plain object of the model</p>
+
+<h3>
+<a id="tojson" class="anchor" href="#tojson" aria-hidden="true"><span class="octicon octicon-link"></span></a>toJSON()</h3>
+
+<p>Alias of <code>.toObject()</code>.</p>
+
+<h3>
+<a id="fetchoptions--" class="anchor" href="#fetchoptions--" aria-hidden="true"><span class="octicon octicon-link"></span></a>fetch(options = {})</h3>
+
+<p>Fetches the model again from the Database, and returns it with a promise.</p>
+
+<p>A quick example:</p>
+
+<div class="highlight highlight-js"><pre><span class="pl-k">var</span> post <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Post</span>({id<span class="pl-k">:</span> <span class="pl-c1">1</span>});
+post.fetch().then(<span class="pl-k">function</span> (<span class="pl-smi">model</span>) {
+  <span class="pl-k">var</span> title <span class="pl-k">=</span> model.get(<span class="pl-s"><span class="pl-pds">'</span>title<span class="pl-pds">'</span></span>);
+});</pre></div>
+
+<h3>
+<a id="getid" class="anchor" href="#getid" aria-hidden="true"><span class="octicon octicon-link"></span></a>getId()</h3>
+
+<p>Get the ID of model</p>
+
+<h3>
+<a id="isnew" class="anchor" href="#isnew" aria-hidden="true"><span class="octicon octicon-link"></span></a>isNew()</h3>
+
+<p>Is the current model new? As in saved in Database, or yet to be saved?</p>
+
+<h3>
+<a id="saveoptions--" class="anchor" href="#saveoptions--" aria-hidden="true"><span class="octicon octicon-link"></span></a>save(options = {})</h3>
+
+<p>Save the current model, and returns a promise.</p>
+
+<p>Options:</p>
+
+<ul>
+<li>
+<code>callbacks</code>: Defaults to true, pass false to disable before/after callbacks.</li>
+</ul>
+
+<h3>
+<a id="savefieldfield-value" class="anchor" href="#savefieldfield-value" aria-hidden="true"><span class="octicon octicon-link"></span></a>saveField(field, value)</h3>
+
+<p>Save a particular field with value.</p>
+
+<p>Returns a promise.</p>
+
+<h3>
+<a id="clear" class="anchor" href="#clear" aria-hidden="true"><span class="octicon octicon-link"></span></a>clear()</h3>
+
+<p>Clear the current instance of model of any data</p>
+
+<h3>
+<a id="deleteoptions--" class="anchor" href="#deleteoptions--" aria-hidden="true"><span class="octicon octicon-link"></span></a>delete(options = {})</h3>
+
+<p>Delete the current model, and return a promise.</p>
+
+<p>Options:</p>
+
+<ul>
+<li>
+<code>callbacks</code>: Defaults to true, pass false to disable before/after callbacks.</li>
+</ul>
+
+<h3>
+<a id="validate" class="anchor" href="#validate" aria-hidden="true"><span class="octicon octicon-link"></span></a>validate()</h3>
+
+<p>Validates all fields of the current Model</p>
+
+<p>Returns a promise with <code>true</code> if all validated, otherwise an object of error messages keyed by field names.</p>
+
+<p><a href="https://github.com/TODO" class="user-mention">@TODO</a>: <code>reject()</code> instead on error?</p>
+
+<p>Options:</p>
+
+<ul>
+<li>
+<code>callbacks</code>: Defaults to true, pass false to disable before/after callbacks.</li>
+</ul>
+
+<h3>
+<a id="validatefieldfield-value--null" class="anchor" href="#validatefieldfield-value--null" aria-hidden="true"><span class="octicon octicon-link"></span></a>validateField(field, value = null)</h3>
+
+<p>Validates a single field</p>
+
+<p>Returns a promise with true if validated, otherwise error message</p>
+
+<h2>
+<a id="callbacks" class="anchor" href="#callbacks" aria-hidden="true"><span class="octicon octicon-link"></span></a>Callbacks</h2>
+
+<p>Models also support callbacks that you can define when creating classes.</p>
+
+<p>For example:</p>
+
+<div class="highlight highlight-js"><pre><span class="pl-k">var</span> Promise <span class="pl-k">=</span> f.Promise;
+<span class="pl-k">var</span> Post <span class="pl-k">=</span> f.createModelClass({
+  alias<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Post<span class="pl-pds">'</span></span>,
+
+  <span class="pl-en">beforeSave</span>: <span class="pl-k">function</span> () {
+    <span class="pl-c">// do something before saving...</span>
+
+    <span class="pl-c">// end the callback with a promise</span>
+    <span class="pl-k">return</span> <span class="pl-k">new</span> <span class="pl-en">Promise.resolve</span>(<span class="pl-c1">true</span>);
+  }
+});</pre></div>
+
+<h3>
+<a id="beforesave" class="anchor" href="#beforesave" aria-hidden="true"><span class="octicon octicon-link"></span></a>beforeSave()</h3>
+
+<p>Should return a Promise with <code>true</code> to continue.</p>
+
+<p>To stop the save, return a Promise with an error.</p>
+
+<h3>
+<a id="aftersave" class="anchor" href="#aftersave" aria-hidden="true"><span class="octicon octicon-link"></span></a>afterSave()</h3>
+
+<p>Should return a Promise.</p>
+
+<h3>
+<a id="beforevalidate" class="anchor" href="#beforevalidate" aria-hidden="true"><span class="octicon octicon-link"></span></a>beforeValidate()</h3>
+
+<p>Should return a Promise with <code>true</code> to continue.</p>
+
+<p>To stop the validation, return a Promise with an error.</p>
+
+<h3>
+<a id="aftervalidate" class="anchor" href="#aftervalidate" aria-hidden="true"><span class="octicon octicon-link"></span></a>afterValidate()</h3>
+
+<p>Should return a Promise.</p>
+
+<h3>
+<a id="beforedelete" class="anchor" href="#beforedelete" aria-hidden="true"><span class="octicon octicon-link"></span></a>beforeDelete()</h3>
+
+<p>Should return a Promise with <code>true</code> to continue.</p>
+
+<p>To stop from deleting, return a Promise with an error.</p>
+
+<h3>
+<a id="afterdelete" class="anchor" href="#afterdelete" aria-hidden="true"><span class="octicon octicon-link"></span></a>afterDelete()</h3>
+
+<p>Should return a Promise.</p>
+
+
+
+
+
+
+
+<h1>
+<a id="testing" class="anchor" href="#testing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Testing</h1>
+
+<p>Tests are written with <a href="http://visionmedia.github.com/mocha/">mocha</a>, and can be run via npm:</p>
+
+<pre><code>$ npm test
+</code></pre>
+
+<h1>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h1>
+
+<p>MIT © <a href="http://fahad19.com">Fahad Ibnay Heylaal</a></p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/fahad19">fahad19</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-47493443-2");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
