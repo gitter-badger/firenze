@@ -33,19 +33,24 @@
 
 <p><a href="http://travis-ci.org/fahad19/firenze"><img src="https://secure.travis-ci.org/fahad19/firenze.png?branch=master" alt="Build Status"></a> <a href="https://coveralls.io/r/fahad19/firenze?branch=master"><img src="https://coveralls.io/repos/fahad19/firenze/badge.svg?branch=master" alt="Coverage Status"></a> <a href="https://www.npmjs.com/package/firenze"><img src="https://img.shields.io/npm/v/firenze.svg" alt="npm"></a></p>
 
-<p>Install it with npm:</p>
+<p>Install it with <a href="https://npmjs.com">npm</a>:</p>
 
 <pre><code>$ npm install --save firenze
 </code></pre>
 
+<p>Or <a href="http://bower.io">Bower</a>:</p>
+
+<pre><code>$ bower install --save firenze
+</code></pre>
+
 <hr>
 
-<p>firenze.js is a node.js object relational mapper targetting SQL databases.</p>
+<p>firenze.js is a adapter-based object relational mapper targetting node.js, io.js and the browser.</p>
 
 <p><strong>Key features:</strong></p>
 
 <ul>
-<li>Written in ES6 (works in both node and io.js)</li>
+<li>Written in ES6 (works in both node/io.js/browser)</li>
 <li>Adapter based structure to plug in any database</li>
 <li>Promise based workflow</li>
 <li>Strong validation support</li>
@@ -80,6 +85,15 @@
 <a id="contents" class="anchor" href="#contents" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contents</h1>
 
 <ul>
+<li>
+<a href="#install">Install</a>
+
+<ul>
+<li><a href="#nodejs">Node.js</a></li>
+<li><a href="#iojs">io.js</a></li>
+<li><a href="#browser">Browser</a></li>
+</ul>
+</li>
 <li><a href="#quickstart">Quickstart</a></li>
 <li>
 <a href="#database">Database</a>
@@ -244,7 +258,59 @@
 
 
 <h1>
+<a id="install" class="anchor" href="#install" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install</h1>
+
+<p>firenze.js can be used in both node.js/io.js, as well as the browser.</p>
+
+<h2>
+<a id="nodejs" class="anchor" href="#nodejs" aria-hidden="true"><span class="octicon octicon-link"></span></a>Node.js</h2>
+
+<pre><code>$ npm install --save firenze
+</code></pre>
+
+<p>Now you can require it as follows:</p>
+
+<div class="highlight highlight-js"><pre><span class="pl-k">var</span> firenze <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>firenze<span class="pl-pds">'</span></span>);</pre></div>
+
+<h2>
+<a id="iojs" class="anchor" href="#iojs" aria-hidden="true"><span class="octicon octicon-link"></span></a>io.js</h2>
+
+<p>Same as Node.js since <code>npm</code> is the common package manager.</p>
+
+<h2>
+<a id="browser" class="anchor" href="#browser" aria-hidden="true"><span class="octicon octicon-link"></span></a>Browser</h2>
+
+<p>You can download firenze.js using <a href="http://bower.io">Bower</a>.</p>
+
+<div class="highlight highlight-js"><pre>$ bower install <span class="pl-k">--</span>save firenze</pre></div>
+
+<p>The package comes with multiple dist files, and you are free to choose whatever workflow suits you best.</p>
+
+<p>If you want to include just one file alone with all the dependencies:</p>
+
+<div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>bower_components/firenze/dist/firenze.full.min.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;
+
+<span class="pl-s1">&lt;<span class="pl-ent">script</span>&gt;</span>
+<span class="pl-s1"><span class="pl-c">// the library is now available in `firenze` variable</span></span>
+<span class="pl-s1">&lt;/<span class="pl-ent">script</span>&gt;</span></pre></div>
+
+<p>If you wish to include only the core library, and load its dependencies manually:</p>
+
+<div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>bower_components/lodash/lodash.min.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;
+&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>bower_components/async/lib/async.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;
+&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>bower_components/bluebird/js/browser/bluebird.min.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;
+&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>bower_components/validator-js/validator.min.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;
+
+&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>bower_components/firenze/dist/firenze.min.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;
+
+<span class="pl-s1">&lt;<span class="pl-ent">script</span>&gt;</span>
+<span class="pl-s1"><span class="pl-c">// use `firenze` variable to access the library</span></span>
+<span class="pl-s1">&lt;/<span class="pl-ent">script</span>&gt;</span></pre></div>
+
+<h1>
 <a id="quickstart" class="anchor" href="#quickstart" aria-hidden="true"><span class="octicon octicon-link"></span></a>Quickstart</h1>
+
+<p>The example is targetting Node.js environment.</p>
 
 <p>Install the module (along with an adapter) first:</p>
 
